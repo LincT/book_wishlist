@@ -1,3 +1,8 @@
-# book_wishlist
+# Book Wishlist
+> A reading list organizer, with numerous features to help keep you or your book club organized!
 
-Manage a list of books that a user wants to read, or has read. For practicing teamwork, collaboration, and working with GitHub's issue tracker.
+Features include:
+* Search for a book
+* Sort by author/title
+* Easily add and remove books as desired
+* Keep track of what books have been read and how they were rated.
