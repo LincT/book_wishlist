@@ -87,6 +87,17 @@ def set_read(book_id, read):
 
     return False  # return False if book id is not found
 
+def delete_book(book_id):
+    """Remove book with given book_id from booklist."""
+    global book_list
+
+    for book in book_list:
+
+        if book.id == int(book_id):
+            book_list.remove(book)
+            return True
+    return False #return False if book id is not found
+
 
 def make_book_list(string_from_file):
     """ turn the string from the file into a list of Book objects"""
