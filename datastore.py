@@ -2,6 +2,7 @@
 
 from book import Book
 from fileIO import FileIO as fileIO
+from datetime import date
 
 DATA_DIR = 'data'
 BOOKS_FILE_NAME = str(fileIO.pathJoin(DATA_DIR, 'wishlist.txt'))
@@ -81,6 +82,7 @@ def set_read(book_id, read):
 
         if book.id == book_id:
             book.read = True
+            book.dateCompleted = str(date.today())
             return True
 
     return False  # return False if book id is not found
