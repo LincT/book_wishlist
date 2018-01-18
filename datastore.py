@@ -1,10 +1,11 @@
 
-import os
+
 from book import Book
+from fileIO import FileIO as fileIO
 
 DATA_DIR = 'data'
-BOOKS_FILE_NAME = os.path.join(DATA_DIR, 'wishlist.txt')
-COUNTER_FILE_NAME = os.path.join(DATA_DIR, 'counter.txt')
+BOOKS_FILE_NAME = fileIO.pathJoin(DATA_DIR, 'wishlist.txt')
+COUNTER_FILE_NAME = fileIO.pathJoin(DATA_DIR, 'counter.txt')
 
 separator = '^^^'  # a string probably not in any valid data relating to a book
 
@@ -17,23 +18,15 @@ def setup():
 
     global counter
 
-    try:
-        with open(BOOKS_FILE_NAME) as f:
-            data = f.read()
-            make_book_list(data)
-    except FileNotFoundError:
-        # First time program has run. Assume no books.
-        pass
+    data = fileIO.readAsString(BOOKS_FILE_NAME)
+    if len(data) > 0:
+        make_book_list(data)
 
-    try:
-        with open(COUNTER_FILE_NAME) as f:
-            try:
-                counter = int(f.read())
-            except:
-                counter = 0
-
-    except:
+    counter = fileIO.readAsPosInt(COUNTER_FILE_NAME)
+    if counter == -1:
         counter = len(book_list)
+
+
 
 
 def shutdown():
@@ -42,10 +35,7 @@ def shutdown():
     output_data = make_output_data()
 
     # Create data directory
-    try:
-        os.mkdir(DATA_DIR)
-    except FileExistsError:
-        pass  # Ignore - if directory exists, don't need to do anything.
+    fileIO.mkdir(DATA_DIR)
 
     with open(BOOKS_FILE_NAME, 'w') as f:
         f.write(output_data)
