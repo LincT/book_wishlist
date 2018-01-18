@@ -8,7 +8,9 @@ Features include:
 * Keep track of what books have been read and how they were rated.
 
 
-##### Credits
-|Name|Link|
-:---|:---:|
-|Markdown help |[A handy Gist Markdown Cheat Sheet!](https://gist.github.com/benstr/8744304)
+**Credits**
+
+| Name  | Link |
+|:--------|:---:|
+| Markdown help | https://gist.github.com/benstr/8744304
+| json | http://docs.python-guide.org/en/latest/scenarios/json/
