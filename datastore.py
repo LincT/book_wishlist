@@ -4,8 +4,8 @@ from book import Book
 from fileIO import FileIO as fileIO
 
 DATA_DIR = 'data'
-BOOKS_FILE_NAME = fileIO.pathJoin(DATA_DIR, 'wishlist.txt')
-COUNTER_FILE_NAME = fileIO.pathJoin(DATA_DIR, 'counter.txt')
+BOOKS_FILE_NAME = str(fileIO.pathJoin(DATA_DIR, 'wishlist.txt'))
+COUNTER_FILE_NAME = str(fileIO.pathJoin(DATA_DIR, 'counter.txt'))
 
 separator = '^^^'  # a string probably not in any valid data relating to a book
 
@@ -37,11 +37,11 @@ def shutdown():
     # Create data directory
     fileIO.mkdir(DATA_DIR)
 
-    with open(BOOKS_FILE_NAME, 'w') as f:
-        f.write(output_data)
+    # write data to file
+    fileIO.overwrite(BOOKS_FILE_NAME,output_data)
 
-    with open(COUNTER_FILE_NAME, 'w') as f:
-        f.write(str(counter))
+    # write counter to data
+    fileIO.overwrite(COUNTER_FILE_NAME,counter)
 
 
 def get_books(**kwargs):
