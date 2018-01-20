@@ -2,8 +2,7 @@
 
 from book import Book
 from fileIO import FileIO as fileIO
-from pprint import pprint  # debugger printing utility
-import json
+from datetime import date
 
 DATA_DIR = 'data'
 BOOKS_FILE_NAME = str(fileIO.pathJoin(DATA_DIR, 'wishlist.txt'))
@@ -28,8 +27,12 @@ def setup():
     if counter == -1:
         counter = len(book_list)
 
-
-
+def is_book(book_id):
+    '''Checks if a book exists.'''
+    for book in book_list:
+        if book.id==int(book_id):
+            return True
+    return False
 
 def shutdown():
     """Save all data to a file - one for books, one for the current counter value, for persistent storage"""
@@ -83,10 +86,47 @@ def set_read(book_id, read):
 
         if book.id == book_id:
             book.read = True
+            book.dateCompleted = str(date.today())
             return True
 
     return False  # return False if book id is not found
 
+def delete_book(book_id):
+    """Remove book with given book_id from booklist."""
+    global book_list
+
+    for book in book_list:
+
+        if book.id == int(book_id):
+            book_list.remove(book)
+            return True
+    return False #return False if book id is not found
+
+def set_title(book_id, title):
+    '''Update title of given book.  Return True if successful, False if id not found.'''
+    for book in book_list:
+        if book.id == int(book_id):
+            book.title=title
+            return True
+    return False
+
+def get_title(book_id):
+    for book in book_list:
+        if book.id==int(book_id):
+            return book.title
+
+def set_author(book_id, author):
+    '''Update author of given book.  Return True if successful, False if id not found.'''
+    for book in book_list:
+        if book.id == int(book_id):
+            book.author=author
+            return True
+    return False
+
+def get_author(book_id):
+    for book in book_list:
+        if book.id==int(book_id):
+            return book.author
 
 def make_book_list(string_from_file):
     """ turn the string from the file into a list of Book objects"""
@@ -96,24 +136,9 @@ def make_book_list(string_from_file):
     books_str = string_from_file.split('\n')
 
     for book_str in books_str:
-        if book_str.find(separator) > -1:  # backwards compatibility
-            data = book_str.split(separator)
-            title = data[0]
-            author = data[1]
-            read = data[2] == 'True'
-            book_id = int(data[3])
-            book = Book(title,author,read,book_id)
-            book_list.append(book)
-        else:
-            if len(str(book_str).strip())>=1:
-                data = json.loads(book_str)
-                for entry in data:
-                    title = data[entry]['title']
-                    author = data[entry]['author']
-                    read = data[entry]['read'] == 'True'
-                    book_id = int(str(entry))
-                    book = Book(title,author,read,book_id)
-                    book_list.append(book)
+        data = book_str.split(separator)
+        book = Book(data[0], data[1], data[2] == 'True', int(data[3]))
+        book_list.append(book)
 
 
 def make_output_data():
@@ -124,16 +149,8 @@ def make_output_data():
     output_data = []
 
     for book in book_list:
-        # output = [book.title, book.author, str(book.read), str(book.id)]
-        output = \
-            {
-                str(book.id): {
-                    'title':book.title,
-                    'author':book.author,
-                    'read':str(book.read)
-                }
-            }
-        output_str = json.dumps(output)
+        output = [book.title, book.author, str(book.read), str(book.id)]
+        output_str = separator.join(output)
         output_data.append(output_str)
 
     all_books_string = '\n'.join(output_data)

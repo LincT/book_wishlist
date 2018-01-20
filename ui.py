@@ -10,6 +10,8 @@ def display_menu_get_choice():
         2. Show books that have been read
         3. Mark a book as read
         4. Add book to wishlist
+        5. Delete a book from the wishlist
+        6. Edit a book
         q. Quit
     ''')
 
@@ -58,3 +60,18 @@ def get_new_book_info():
 def message(msg):
     '''Display a message to the user'''
     print(msg)
+
+def edit_book_info():
+    info=input('1. Change book title.\n2. Change book author. \n3. Return to main menu.\n\nEnter your selection: ')
+    if (info == '1') | (info == '2') | (info == '3'):
+        return info
+    else:
+        print('Please enter 1, 2, or 3.')
+
+def get_edit_info(option, old_info):
+    if option=='1':
+        info=input("Previous book title: "+ old_info+ "\nPlease enter revised title: ")
+        return info
+    elif option == '2':
+        info=input("Previous book author: "+ old_info + "\nPlease enter revised author: ")
+        return info

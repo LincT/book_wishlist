@@ -18,6 +18,12 @@ def handle_choice(choice):
     elif choice == '4':
         new_book()
 
+    elif choice == '5':
+        delete_book()
+
+    elif choice == '6':
+        edit_book()
+
     elif choice == 'q':
         quit()
 
@@ -45,6 +51,26 @@ def book_read():
     else:
         ui.message('Book id not found in database')
 
+def edit_book():
+    '''Get book id from user, edit book title or author, display success/error message'''
+    book_id=ui.ask_for_book_id()
+    if datastore.is_book(book_id): #does the book exist?
+        option=ui.edit_book_info()
+        if option == '1':
+            title=datastore.get_title(book_id)
+            new_title=ui.get_edit_info(option, title)
+            datastore.set_title(book_id, new_title)
+            ui.message('Book title has been changed')
+        elif option == '2':
+            author=datastore.get_author(book_id)
+            new_author=ui.get_edit_info(option, author)
+            datastore.set_author(book_id, new_author)
+            ui.message('Book author has been changed')
+        else:
+            return
+
+    else:
+        ui.message('Book id not found in database')
 
 def new_book():
     '''Get info from user, add new book'''
@@ -52,6 +78,12 @@ def new_book():
     datastore.add_book(new_book)
     ui.message('Book added: ' + str(new_book))
 
+def delete_book():
+    book_id=ui.ask_for_book_id()
+    if datastore.delete_book(book_id):
+        ui.message('Successfully deleted')
+    else:
+        ui.message('Book id not found in database')
 
 def quit():
     '''Perform shutdown tasks'''
