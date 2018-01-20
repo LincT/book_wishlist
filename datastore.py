@@ -2,6 +2,7 @@
 
 from book import Book
 from fileIO import FileIO as fileIO
+import json
 
 DATA_DIR = 'data'
 BOOKS_FILE_NAME = str(fileIO.pathJoin(DATA_DIR, 'wishlist.txt'))
@@ -94,9 +95,25 @@ def make_book_list(string_from_file):
     books_str = string_from_file.split('\n')
 
     for book_str in books_str:
-        data = book_str.split(separator)
-        book = Book(data[0], data[1], data[2] == 'True', int(data[3]))
-        book_list.append(book)
+        if book_str.find(separator) > -1:  # backwards compatibility
+            data = book_str.split(separator)
+            title = data[0]
+            author = data[1]
+            read = data[2] == 'True'
+            book_id = int(data[3])
+            book = Book(title,author,read,book_id)
+            book_list.append(book)
+        else:
+            data = json.loads(book_str)
+            print(book_str,"\n",data)
+            for entry in data:
+                title = data[entry]['title']
+                author = data[entry]['author']
+                read = data[entry]['read']
+                book_id = int(str(entry))
+                book = Book(title,author,read,book_id)
+                print(book_id)
+                book_list.append(book)
 
 
 def make_output_data():
@@ -107,8 +124,18 @@ def make_output_data():
     output_data = []
 
     for book in book_list:
-        output = [book.title, book.author, str(book.read), str(book.id)]
-        output_str = separator.join(output)
+        # output = [book.title, book.author, str(book.read), str(book.id)]
+        output = \
+            {
+                str(book.id): {
+                    "title":book.title,
+                    "author":book.author,
+                    "read":str(book.read),
+                    "rating":"<rate>",
+                    "review":"<comment>"
+                }
+            }
+        output_str = str(output)
         output_data.append(output_str)
 
     all_books_string = '\n'.join(output_data)
