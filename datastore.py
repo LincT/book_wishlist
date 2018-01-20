@@ -2,8 +2,11 @@
 
 from book import Book
 from fileIO import FileIO as fileIO
+
 from pprint import pprint
 import json
+from datetime import date
+
 
 DATA_DIR = 'data'
 BOOKS_FILE_NAME = str(fileIO.pathJoin(DATA_DIR, 'wishlist.txt'))
@@ -28,8 +31,12 @@ def setup():
     if counter == -1:
         counter = len(book_list)
 
-
-
+def is_book(book_id):
+    '''Checks if a book exists.'''
+    for book in book_list:
+        if book.id==int(book_id):
+            return True
+    return False
 
 def shutdown():
     """Save all data to a file - one for books, one for the current counter value, for persistent storage"""
@@ -83,10 +90,47 @@ def set_read(book_id, read):
 
         if book.id == book_id:
             book.read = True
+            book.dateCompleted = str(date.today())
             return True
 
     return False  # return False if book id is not found
 
+def delete_book(book_id):
+    """Remove book with given book_id from booklist."""
+    global book_list
+
+    for book in book_list:
+
+        if book.id == int(book_id):
+            book_list.remove(book)
+            return True
+    return False #return False if book id is not found
+
+def set_title(book_id, title):
+    '''Update title of given book.  Return True if successful, False if id not found.'''
+    for book in book_list:
+        if book.id == int(book_id):
+            book.title=title
+            return True
+    return False
+
+def get_title(book_id):
+    for book in book_list:
+        if book.id==int(book_id):
+            return book.title
+
+def set_author(book_id, author):
+    '''Update author of given book.  Return True if successful, False if id not found.'''
+    for book in book_list:
+        if book.id == int(book_id):
+            book.author=author
+            return True
+    return False
+
+def get_author(book_id):
+    for book in book_list:
+        if book.id==int(book_id):
+            return book.author
 
 def make_book_list(string_from_file):
     """ turn the string from the file into a list of Book objects"""
