@@ -2,7 +2,7 @@
 
 from book import Book
 from fileIO import FileIO as fileIO
-from pprint import pprint
+from pprint import pprint  # debugger printing utility
 import json
 
 DATA_DIR = 'data'
