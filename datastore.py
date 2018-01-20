@@ -2,6 +2,7 @@
 
 from book import Book
 from fileIO import FileIO as fileIO
+from pprint import pprint
 import json
 
 DATA_DIR = 'data'
@@ -104,16 +105,15 @@ def make_book_list(string_from_file):
             book = Book(title,author,read,book_id)
             book_list.append(book)
         else:
-            data = json.loads(book_str)
-            print(book_str,"\n",data)
-            for entry in data:
-                title = data[entry]['title']
-                author = data[entry]['author']
-                read = data[entry]['read']
-                book_id = int(str(entry))
-                book = Book(title,author,read,book_id)
-                print(book_id)
-                book_list.append(book)
+            if len(str(book_str).strip())>=1:
+                data = json.loads(book_str)
+                for entry in data:
+                    title = data[entry]['title']
+                    author = data[entry]['author']
+                    read = data[entry]['read'] == 'True'
+                    book_id = int(str(entry))
+                    book = Book(title,author,read,book_id)
+                    book_list.append(book)
 
 
 def make_output_data():
@@ -128,14 +128,12 @@ def make_output_data():
         output = \
             {
                 str(book.id): {
-                    "title":book.title,
-                    "author":book.author,
-                    "read":str(book.read),
-                    "rating":"<rate>",
-                    "review":"<comment>"
+                    'title':book.title,
+                    'author':book.author,
+                    'read':str(book.read)
                 }
             }
-        output_str = str(output)
+        output_str = json.dumps(output)
         output_data.append(output_str)
 
     all_books_string = '\n'.join(output_data)
