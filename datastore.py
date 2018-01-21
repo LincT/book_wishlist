@@ -1,5 +1,3 @@
-
-
 from book import Book
 from fileIO import FileIO as fileIO
 from datetime import date
@@ -45,7 +43,6 @@ def shutdown():
     fileIO.mkdir(DATA_DIR)
 
     # write data to file
-    # pprint(output_data)
     fileIO.overwrite(BOOKS_FILE_NAME,output_data)
 
     # write counter to data
