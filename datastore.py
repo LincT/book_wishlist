@@ -78,24 +78,18 @@ def generate_id():
 
 def search(term=""):
     result = []
-    all_books = []
     global book_list
 
-
-    # make sure we're getting both read and unread
-
-
     for book in book_list:
-        pprint(book.title)
-        if str(book.title).lower().find(term.lower())>=0:
+        if term.lower() in str(book.title).lower():
             result.append("Found title: \n\t" + book.title + "\n\t by: " + book.author)
-        if str(book.author).lower().find(term.lower())>=0:
+        if term.lower() in str(book.author).lower():
             result.append("Found author: \n\t" + book.title + "\n\t by: " + book.author)
 
-        if len(result)>0:
-            return "\n".join(result)
-        else:
-            return "No match found"
+    if len(result)>0:
+        return "\n".join(result)
+    else:
+        return "No match found"
 
 def set_read(book_id, read):
     """Update book with given book_id to read. Return True if book is found in DB and update is made, False otherwise."""
