@@ -32,6 +32,12 @@ def show_list(books):
 
     print('* {} book(s) *'.format(len(books)))
 
+def get_sort_info():
+    '''Ask user what data to sort on.  Return choice'''
+    while True:
+        a=input("1. Sort by Title\n2. Sort by Author\n3. Sort by id\n\nEnter your selection: ")
+        if (a=='1')|(a=='2')|(a=='3'):
+            return a
 
 def ask_for_book_id():
 

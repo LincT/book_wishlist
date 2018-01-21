@@ -128,6 +128,20 @@ def get_author(book_id):
         if book.id==int(book_id):
             return book.author
 
+def sort_list(k, my_list): #k is author or title, depending.
+    """take a keyword and return book_list sorted by that keyword"""
+    #used https://docs.python.org/3/howto/sorting.html for reference to sorting information for list of objects
+    if my_list==0:
+        my_list=book_list
+    if (k=='author'):
+        sortedList=sorted(my_list, key=lambda book: book.author)
+        return sortedList
+    elif (k=='title'):
+        sortedList=sorted(my_list, key=lambda book: book.title)
+        return sortedList
+    else:
+        return
+
 def make_book_list(string_from_file):
     """ turn the string from the file into a list of Book objects"""
 
