@@ -12,6 +12,8 @@ class Book:
         self.dateCompleted = "Not finished yet."
         self.id=id
 
+    def __repr__(self):
+        return repr((self.title, self.author, self.read, self.dateCompleted, self.id))
 
     def set_id(self, id):
         self.id = id

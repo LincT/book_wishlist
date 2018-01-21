@@ -35,15 +35,27 @@ def handle_choice(choice):
 
 
 def show_unread():
-    """Fetch and show all unread books"""
+    '''Fetch and show all unread books, sorted as requested by user.'''
     unread = datastore.get_books(read=False)
-    ui.show_list(unread)
+    preference=ui.get_sort_info()
+    if preference=='1':
+        ui.show_list(datastore.sort_list('title', unread))
+    elif preference=='2':
+        ui.show_list(datastore.sort_list('author', unread))
+    elif preference=='3':
+        ui.show_list(unread)
 
 
 def show_read():
-    """Fetch and show all read books"""
+    '''Fetch and show all read books, sorted as requested by user.'''
     read = datastore.get_books(read=True)
-    ui.show_list(read)
+    preference = ui.get_sort_info()
+    if preference == '1':
+        ui.show_list(datastore.sort_list('title', read))
+    elif preference == '2':
+        ui.show_list(datastore.sort_list('author', read))
+    elif preference == '3':
+        ui.show_list(read)
 
 
 def book_read():
