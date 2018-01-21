@@ -1,7 +1,7 @@
 #Main program
 
 import ui, datastore
-from book import Book
+
 
 
 def handle_choice(choice):
@@ -32,19 +32,19 @@ def handle_choice(choice):
 
 
 def show_unread():
-    '''Fetch and show all unread books'''
+    """Fetch and show all unread books"""
     unread = datastore.get_books(read=False)
     ui.show_list(unread)
 
 
 def show_read():
-    '''Fetch and show all read books'''
+    """Fetch and show all read books"""
     read = datastore.get_books(read=True)
     ui.show_list(read)
 
 
 def book_read():
-    ''' Get choice from user, edit datastore, display success/error'''
+    """ Get choice from user, edit datastore, display success/error"""
     book_id = ui.ask_for_book_id()
     if datastore.set_read(book_id, True):
         ui.message('Successfully updated')
@@ -52,7 +52,7 @@ def book_read():
         ui.message('Book id not found in database')
 
 def edit_book():
-    '''Get book id from user, edit book title or author, display success/error message'''
+    """Get book id from user, edit book title or author, display success/error message"""
     book_id=ui.ask_for_book_id()
     if datastore.is_book(book_id): #does the book exist?
         option=ui.edit_book_info()
@@ -73,7 +73,7 @@ def edit_book():
         ui.message('Book id not found in database')
 
 def new_book():
-    '''Get info from user, add new book'''
+    """Get info from user, add new book"""
     new_book = ui.get_new_book_info()
     datastore.add_book(new_book)
     ui.message('Book added: ' + str(new_book))
@@ -86,7 +86,7 @@ def delete_book():
         ui.message('Book id not found in database')
 
 def quit():
-    '''Perform shutdown tasks'''
+    """Perform shutdown tasks"""
     datastore.shutdown()
     ui.message('Bye!')
 

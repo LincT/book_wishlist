@@ -3,6 +3,7 @@
 from book import Book
 from fileIO import FileIO as fileIO
 from datetime import date
+from pprint import pprint  # debugging tool
 import json
 
 DATA_DIR = 'data'
@@ -44,6 +45,7 @@ def shutdown():
     fileIO.mkdir(DATA_DIR)
 
     # write data to file
+    # pprint(output_data)
     fileIO.overwrite(BOOKS_FILE_NAME,output_data)
 
     # write counter to data
@@ -147,36 +149,43 @@ def make_book_list(string_from_file):
             book_list.append(book)
         else:
             if len(str(book_str).strip())>=1:
+                """
+                Whole lot going on here. If it's not a blank line, the json parser should read every aspect from the
+                file and store it in memory. It should then create a new book object with the attributes from the entry.
+                In order to work we do need an existing instance of a book object, so we hack in an incomplete book
+                to be updated further in the code.
+                """
                 data = json.loads(book_str)
                 for entry in data:
-                    title = data[entry]['title']
-                    author = data[entry]['author']
-                    read = data[entry]['read'] == 'True'
-                    book_id = int(str(entry))
-                    book = Book(title,author,read,book_id)
+                    pre_book_dict = dict(data[entry])
+                    book_id = int(str(entry))  # has to be set in init.
+                    book = Book("","","",book_id)
+                    for item in (vars(book).keys()):
+                        if item in pre_book_dict.keys():
+                            if item == 'read':  # special handling since we're evaluating and not just returning a value
+                                book.__setattr__(item,pre_book_dict.get('read') == 'True')
+                            else:
+                                book.__setattr__(item,str(pre_book_dict.get(item)))
                     book_list.append(book)
 
 
 def make_output_data():
     """ create a string containing all data on books, for writing to output file"""
-
     global book_list
 
     output_data = []
 
     for book in book_list:
-        # output = [book.title, book.author, str(book.read), str(book.id)]
-        output = \
-            {
-                str(book.id): {
-                    'title':book.title,
-                    'author':book.author,
-                    'read':str(book.read)
-                }
-            }
-        output_str = json.dumps(output)
-        output_data.append(output_str)
+        book_data = {}
+        for key in (dict(book.__dict__).keys()):
+            if key != 'id':
+                book_data.setdefault( key, str(dict(book.__dict__).get(key)))
+
+        output = {str(book.id):book_data}
+        output_str = json.dumps(str(output))
+        output_data.append(output_str.strip("\"").replace("'","\""))
 
     all_books_string = '\n'.join(output_data)
+
 
     return all_books_string

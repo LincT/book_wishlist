@@ -1,11 +1,11 @@
 class Book:
 
-    ''' Represents one book in a user's list of books'''
+    """ Represents one book in a user's list of books"""
 
     NO_ID = -1
 
     def __init__(self, title, author, read=False, id=NO_ID):
-        '''Default book is unread, and has no ID'''
+        """Default book is unread, and has no ID"""
         self.title = title
         self.author = author
         self.read = read
