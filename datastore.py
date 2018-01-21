@@ -65,7 +65,6 @@ def add_book(book):
     """ Add to db, set id value, return Book"""
 
     global book_list
-
     book.id = generate_id()
     book_list.append(book)
 

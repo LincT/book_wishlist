@@ -78,8 +78,12 @@ def edit_book():
 def new_book():
     """Get info from user, add new book"""
     new_book = ui.get_new_book_info()
-    datastore.add_book(new_book)
-    ui.message('Book added: ' + str(new_book))
+    if datastore.search(new_book.title) != "No match found":
+        if ui.get_input("similar entries found, do you wish to still add this book?").lower()[0]!="y":
+            ui.message("entry canceled")
+    else:
+        datastore.add_book(new_book)
+        ui.message('Book added: ' + str(new_book))
 
 def delete_book():
     book_id=ui.ask_for_book_id()
