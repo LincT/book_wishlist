@@ -24,6 +24,9 @@ def handle_choice(choice):
     elif choice == '6':
         edit_book()
 
+    elif choice == '9':
+        search()
+
     elif choice == 'q':
         quit()
 
@@ -84,6 +87,11 @@ def delete_book():
         ui.message('Successfully deleted')
     else:
         ui.message('Book id not found in database')
+
+def search():
+    term = ui.get_input("please enter a search term (not case sensitive)")
+    if term != "-1":
+        print(datastore.search(term))
 
 def quit():
     """Perform shutdown tasks"""

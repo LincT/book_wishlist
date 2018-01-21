@@ -12,6 +12,7 @@ def display_menu_get_choice():
         4. Add book to wishlist
         5. Delete a book from the wishlist
         6. Edit a book
+        9. Search for a title or author
         q. Quit
     ''')
 
@@ -75,3 +76,10 @@ def get_edit_info(option, old_info):
     elif option == '2':
         info=input("Previous book author: "+ old_info + "\nPlease enter revised author: ")
         return info
+
+def get_input(message):
+    userInput = input(message)
+    if len(userInput.strip(" "))<1:
+        return "-1"
+    else:
+        return userInput
