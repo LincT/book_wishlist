@@ -60,7 +60,7 @@ def ask_for_book_id():
 
 
 def get_rating():
-    '''Ask user for rating for read book, check that it is a valid response, and return corresponding number or stars.'''
+    '''Ask user for rating for read book, check that it is a valid response, and return corresponding stars.'''
     while True:
         try:
             rate=int(input("Please rate this book on a scale from 1 to 5."))
