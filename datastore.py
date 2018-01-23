@@ -75,14 +75,14 @@ def generate_id():
     return counter
 
 
-def search(term=""):
+def search(type, term="" ):
     result = []
     global book_list
 
     for book in book_list:
-        if term.lower() in str(book.title).lower():
+        if (term.lower() in str(book.title).lower()) & (type=='1'):
             result.append("Found title: \n\t" + book.title + "\n\t by: " + book.author)
-        if term.lower() in str(book.author).lower():
+        elif (term.lower() in str(book.author).lower()) & (type=='2'):
             result.append("Found author: \n\t" + book.title + "\n\t by: " + book.author)
 
     if len(result)>0:
@@ -90,6 +90,16 @@ def search(term=""):
     else:
         return "No match found"
 
+def check_duplicate(title, author):
+    r=0
+    for book in book_list:
+        if (title.lower() in str(book.title).lower()) & (author.lower() in str(book.author).lower()):
+            r=r+1
+
+    if r>0:
+        return True #There is a duplicate
+    else:
+        return False #There is not a duplicate
 
 def set_read(book_id, read, rate):
     """Update book with given book_id to read. Return True if book is found in DB and update is made, False otherwise."""
