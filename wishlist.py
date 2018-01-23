@@ -93,7 +93,7 @@ def edit_book():
 def new_book():
     """Get info from user, add new book"""
     new_book = ui.get_new_book_info()
-    if datastore.check_duplicate(new_book.title, new_book.author): #True if duplicate
+    if datastore.check_duplicate(new_book.title, new_book.author): #True if duplicate exists
         if ui.get_input("Book with same title and author was already added.  To add anyway, type y.").lower()[0]!="y":
             ui.message("entry canceled")
     else:
@@ -101,6 +101,7 @@ def new_book():
         ui.message('Book added: ' + str(new_book))
 
 def delete_book():
+    """Delete book by book id and report success or failure"""
     book_id=ui.ask_for_book_id()
     if datastore.delete_book(book_id):
         ui.message('Successfully deleted')
@@ -108,10 +109,11 @@ def delete_book():
         ui.message('Book id not found in database')
 
 def search():
-    option = ui.get_input("1. Search title\n2. Search author")
+    """Search title or search author for a given string and display results"""
+    option = ui.get_search_input()
     term = ui.get_input("Please type your search term (not case sensitive).")
     if term != "-1":
-        print(datastore.search(option, term))
+        ui.message(datastore.search(option, term))
 
 def quit():
     """Perform shutdown tasks"""

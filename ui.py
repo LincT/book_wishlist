@@ -106,3 +106,11 @@ def get_input(message):
         return "-1"
     else:
         return userInput
+
+def get_search_input():
+    while True:
+        option=input("1. Search title\n2. Search author\nEnter your selection: ")
+        if (option == '1') | (option == '2'):
+            return option
+        else:
+            print('Please enter the number of your choice.')

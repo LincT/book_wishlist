@@ -3,7 +3,7 @@
 
 Features include:
 * Search for a book
-* Sort by author/title
+* Sort by author/title/rating
 * Easily add and remove books as desired
 * Keep track of what books have been read and how they were rated.
 
