@@ -53,7 +53,6 @@ def get_books(**kwargs):
     """ Return books from data store. With no arguments, returns everything. """
 
     global book_list
-
     if len(kwargs) == 0:
         return book_list
 
@@ -66,7 +65,6 @@ def add_book(book):
     """ Add to db, set id value, return Book"""
 
     global book_list
-
     book.id = generate_id()
     book_list.append(book)
 
@@ -75,6 +73,22 @@ def generate_id():
     global counter
     counter += 1
     return counter
+
+
+def search(term=""):
+    result = []
+    global book_list
+
+    for book in book_list:
+        if term.lower() in str(book.title).lower():
+            result.append("Found title: \n\t" + book.title + "\n\t by: " + book.author)
+        if term.lower() in str(book.author).lower():
+            result.append("Found author: \n\t" + book.title + "\n\t by: " + book.author)
+
+    if len(result)>0:
+        return "\n".join(result)
+    else:
+        return "No match found"
 
 
 def set_read(book_id, read, rate):
