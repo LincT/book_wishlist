@@ -32,12 +32,17 @@ def show_list(books):
 
     print('* {} book(s) *'.format(len(books)))
 
-def get_sort_info():
+def get_sort_info(option):
     '''Ask user what data to sort on.  Return choice'''
     while True:
-        a=input("1. Sort by Title\n2. Sort by Author\n3. Sort by id\n\nEnter your selection: ")
-        if (a=='1')|(a=='2')|(a=='3'):
-            return a
+        if option=='r':
+            a=input("1. Sort by Title\n2. Sort by Author\n3. Sort by rating\n4. Sort by id\n\nEnter your selection: ")
+            if (a=='1')|(a=='2')|(a=='3')| (a=='4'):
+                return a
+        elif option=='n':
+            b = input("1. Sort by Title\n2. Sort by Author\n3. Sort by id\n\nEnter your selection: ")
+            if (b == '1') | (b == '2') | (b == '3'):
+                return b
 
 def ask_for_book_id():
 
@@ -46,10 +51,23 @@ def ask_for_book_id():
     while True:
         try:
             id = int(input('Enter book id:'))
-            if id >= 0:
+            if id >= 0:  #would you ever have a book id of 0?
                 return id
             else:
                 print('Please enter a positive number ')
+        except ValueError:
+            print('Please enter an integer number')
+
+
+def get_rating():
+    '''Ask user for rating for read book, check that it is a valid response, and return corresponding number or stars.'''
+    while True:
+        try:
+            rate=int(input("Please rate this book on a scale from 1 to 5."))
+            if (rate > 0) & (rate < 6):
+                return rate*'*'
+            else:
+                print('Please enter a positive number.')
         except ValueError:
             print('Please enter an integer number')
 

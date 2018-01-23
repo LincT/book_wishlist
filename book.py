@@ -11,9 +11,10 @@ class Book:
         self.read = read
         self.dateCompleted = "Not finished yet."
         self.id=id
+        self.rating= "Not rated yet"
 
     def __repr__(self):
-        return repr((self.title, self.author, self.read, self.dateCompleted, self.id))
+        return repr((self.title, self.author, self.read, self.dateCompleted, self.id, self.rating))
 
     def set_id(self, id):
         self.id = id
@@ -28,8 +29,8 @@ class Book:
         if id == -1:
             id_str = '(no id)'
 
-        template = 'id: {} Title: {} Author: {} Read: {} Date Completed: {}'
-        return template.format(id_str, self.title, self.author, read_str, self.dateCompleted)
+        template = 'id: {} Title: {} Author: {} Read: {} Date Completed: {} Rating: {}'
+        return template.format(id_str, self.title, self.author, read_str, self.dateCompleted, self.rating)
 
 
     def __eq__(self, other):

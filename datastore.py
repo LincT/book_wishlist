@@ -77,7 +77,7 @@ def generate_id():
     return counter
 
 
-def set_read(book_id, read):
+def set_read(book_id, read, rate):
     """Update book with given book_id to read. Return True if book is found in DB and update is made, False otherwise."""
 
     global book_list
@@ -87,6 +87,7 @@ def set_read(book_id, read):
         if book.id == book_id:
             book.read = True
             book.dateCompleted = str(date.today())
+            book.rating = rate
             return True
 
     return False  # return False if book id is not found
@@ -138,6 +139,9 @@ def sort_list(k, my_list): #k is author or title, depending.
         return sortedList
     elif (k=='title'):
         sortedList=sorted(my_list, key=lambda book: book.title)
+        return sortedList
+    elif (k=='rating'):
+        sortedList=sorted(my_list, key=lambda book: book.rating)
         return sortedList
     else:
         return

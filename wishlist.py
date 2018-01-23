@@ -34,7 +34,7 @@ def handle_choice(choice):
 def show_unread():
     '''Fetch and show all unread books, sorted as requested by user.'''
     unread = datastore.get_books(read=False)
-    preference=ui.get_sort_info()
+    preference=ui.get_sort_info('n')
     if preference=='1':
         ui.show_list(datastore.sort_list('title', unread))
     elif preference=='2':
@@ -46,19 +46,22 @@ def show_unread():
 def show_read():
     '''Fetch and show all read books, sorted as requested by user.'''
     read = datastore.get_books(read=True)
-    preference = ui.get_sort_info()
+    preference = ui.get_sort_info('r')
     if preference == '1':
         ui.show_list(datastore.sort_list('title', read))
     elif preference == '2':
         ui.show_list(datastore.sort_list('author', read))
     elif preference == '3':
+        ui.show_list(datastore.sort_list('rating', read))
+    elif preference == '4':
         ui.show_list(read)
 
 
 def book_read():
     """ Get choice from user, edit datastore, display success/error"""
     book_id = ui.ask_for_book_id()
-    if datastore.set_read(book_id, True):
+    rate=ui.get_rating()
+    if datastore.set_read(book_id, True, rate):
         ui.message('Successfully updated')
     else:
         ui.message('Book id not found in database')
